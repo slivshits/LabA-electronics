@@ -206,6 +206,7 @@ Bias points were measured with a digital multimeter: ampermeter in series for $I
 $^*$ **Correction to pre-lab:** The preliminary report listed $V_{DS,M3} = 4.13\,\text{V}$, which resulted from a sign error: $V_{DS,M3} = V_{D,M3} - V_{S,M3} = 6.31 - (-2.33) = +8.64\,\text{V}$ (not $6.31 - 2.28 = 4.03\,\text{V}$). The source of M3 is at the drain of M2, which sits $2.33\,\text{V}$ below ground. The corrected simulation value of $8.64\,\text{V}$ matches the measurement ($8.80\,\text{V}$, $1.9\,\%$ error) excellently.
 
 The measured DC operating points are in **excellent agreement** with the pre-lab predictions (errors $< 3\,\%$ for all quantities). All three transistors are confirmed to be in saturation, as required for proper amplifier operation.
+DC coupling was used since OP is measured in DC.
 
 ### 3.3 Mid-Band Voltage Gain
 
@@ -214,7 +215,7 @@ A sine-wave input of $V_{in} = 20\,\text{mV}_{pp}$ / $10\,\text{kHz}$ was applie
 ![ ](assets/post_p5.png)
 \nopagebreak[4]
 
-\figcap{Figure 5 - Print 5: $V_{in}$ ($21.8\,\text{mV}_{pp}$) and $V_{out}$ ($820\,\text{mV}_{pp}$) at $R_f = 16\,\text{k}\Omega$, $f = 10.08\,\text{kHz}$; gain $= 41$ ($32.3\,\text{dB}$).}
+\figcap{Figure 5 - Print 5: $V_{in} = 21.8\,\text{mV}_{pp}$ and $V_{out}, R_{f} = 10\,\text{k}\Omega$ on the background while $R_{f} = 16\,\text{k}\Omega$ in front.}
 
 | $R_f$ | $V_{in}$ [mV$_{pp}$] | $V_{out}$ [mV$_{pp}$] | $A_V$ (linear) | $A_V$ [dB] |
 |------|-----------|-----------|----------|--------|
@@ -241,7 +242,7 @@ A logarithmic frequency sweep (1 Hz → 1 MHz) was applied and the output envelo
 ![ ](assets/post_p6.png)
 \nopagebreak[4]
 
-\figcap{Figure 6 - Print 6: Frequency-response envelope of the CS amplifier; output builds up from low-frequency roll-off, reaches mid-band, then decays at the high-frequency roll-off.}
+\figcap{Figure 6 - Print 6: Frequency-response envelope of the CS amplifier; output builds up from low-frequency roll-off, reaches mid-band, then decays at the high-frequency roll-off. $R_{f} = 10\,\text{k}\Omega$ on the background while $R_{f} = 16\,\text{k}\Omega$ On front}
 
 ### 3.5 Bandwidth Extraction - Table 1
 
@@ -250,6 +251,9 @@ The $-3\,\text{dB}$ frequencies were extracted using a **linear** time sweep ($f
 $$f(\Delta t) = f_{\text{start}} + f_{\text{stop}}\left(1 - \frac{f_{\text{start}}}{f_{\text{stop}}}\right)\cdot\frac{\Delta t}{T_{\text{sweep}}}$$
 
 The $-3\,\text{dB}$ timestamps ($t_L$, $t_H$) were read at the points where the envelope fell to $1/\sqrt{2}$ of its peak amplitude.
+
+Since the system incorporates a bandpass amplifier, the DC components and low-frequency harmonics are inherently filtered out by the hardware circuit itself. 
+Consequently, the choice between AC and DC oscilloscope coupling becomes negligible for low-frequency rejection. DC coupling mode was therefore selected to avoid redundant filtering, prevent phase distortion near the lower cutoff frequency, and maintain visibility over any potential baseline drift in the amplifier's output.
 
 **Table 1 - Frequency response summary:**
 
