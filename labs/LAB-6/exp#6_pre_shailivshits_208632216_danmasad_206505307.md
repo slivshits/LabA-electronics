@@ -11,8 +11,6 @@ header-includes:
 # Lab 6: Distributed Circuits and Transmission Lines - Preliminary Report
 
 **Students:** Shai Livshits · 208632216 &nbsp;|&nbsp; Dan Masad · 206505307
-**Date:** 17/06/2026
-**Course:** Lab A - Electronics, TAU Faculty of Engineering, Semester B 2025-2026
 
 ---
 
@@ -157,24 +155,27 @@ The reflection coefficient for each load is summarised below:
 
 - **(vii) Series RC:** At $t = 0^+$ the capacitor is uncharged (acts as short), $Z_L = R = 100\,\Omega$, $\Gamma = +1/3$, $V_B = 4/3\,\text{V}$. As C charges, $Z_L \to \infty$, giving $\Gamma \to +1$ and $V_B \to 2\,\text{V}$. Time constant: $\tau = (R + Z_0)\,C = 150\,\Omega \times 1\,\mu\text{F} = 150\,\mu\text{s}$ (much longer than the 2 µs window, so the full transition is not visible).
 
-**Simulation results are shown in Figures 2–5.**
+**Simulation results are shown in Figures 2–4.**
 
 
-**All resistive loads (ii)–(v):** All four resistive loads are shown together in Figure 2. Each load produces a distinct reflection coefficient, visible as a different steady-state voltage level on the superimposed waveforms.
+**All resistive loads (ii)–(v):** All five loads (including short and open) are shown together in Figure 2. Each load produces a distinct reflection coefficient, visible as a different steady-state voltage level on the top ($V(B)$) traces.
+
+The bottom traces ($V(A)$, source side) reveal the return signal, which always appears **during the OFF state** (between pulses) since the round-trip delay $2t_d \approx 69\,\text{ns}$ is much shorter than the pulse period:
+
+- **Short circuit** (green, $\Gamma = -1$): the reflected wave is inverted (polarised negative), producing a negative-going pulse at $V(A)$ during the OFF period.
+- **Open circuit** (pink, $\Gamma = +1$): the full incident voltage is reflected back in phase. The return pulse arrives at A after $2t_d$ and appears as a second consecutive positive pulse — as if the ON state repeats — because all the voltage is returned with no loss.
+- **$25\,\Omega$** (purple, $\Gamma = -1/3$): partial negative return; lower amplitude than short circuit.
+- **$50\,\Omega$** (red, $\Gamma = 0$): matched load — no reflected wave, $V(A)$ shows nothing during OFF period.
+- **$160\,\Omega$** (cyan, $\Gamma = +0.524$): partial positive return; lower amplitude than open circuit.
+
+In general, loads with $Z_L < Z_0$ produce a **negative** return pulse at A, loads with $Z_L > Z_0$ produce a **positive** return pulse, and the matched load ($Z_L = Z_0 = 50\,\Omega$) produces no return at all.
 
 ![ ](assets/sim_1.7_resistive.png)
 \nopagebreak[4]
 
-\figcap{Figure 2: Resistive terminations - bottom: $V(A)$ source; top: $V(B)$ for open, $50\,\Omega$, $25\,\Omega$, and $160\,\Omega$ loads overlaid, amplitudes reflecting $\Gamma = +1,\,0,\,-1/3,\,+0.524$ respectively.}
+\figcap{Figure 2: All resistive terminations overlaid - top: $V(B)$: short ($\Gamma=-1$, green), $25\,\Omega$ ($\Gamma=-1/3$, purple), $50\,\Omega$ ($\Gamma=0$, red), $160\,\Omega$ ($\Gamma=+0.524$, cyan), open ($\Gamma=+1$, pink); bottom: $V(A)$ source side - return pulses appear during OFF cycles, negative for $Z_L < Z_0$, positive for $Z_L > Z_0$, absent for matched load.}
 
 
-\newpage
-**Short-circuit (i):** $\Gamma = -1$; the voltage at B is forced to zero and the reflected wave inverts the incident pulse. The amplitude that measured was very low as and not perfect zero as we used $1\,\Omega$ load.
-
-![ ](assets/sim_1.7_short.png)
-\nopagebreak[4]
-
-\figcap{Figure 3: Short-circuit termination ($\Gamma = -1$) - bottom: $V(A)$ shows staircase buildup from successive re-reflections; top: $V(B) \approx 0$ (short-circuit forced voltage).}
 
 \newpage
 **Series R-L (vi):** The inductor produces an initial voltage overshoot at B ($V_B \to 2\,\text{V}$, top trace) followed by exponential decay toward the resistive steady state ($V_B \to 4/3\,\text{V}$, $\tau \approx 6.7\,\text{ns}$). Strong ringing is also visible at A (bottom trace) from each pulse transition.
@@ -182,26 +183,28 @@ The reflection coefficient for each load is summarised below:
 ![ ](assets/sim_1.7_RL.png)
 \nopagebreak[4]
 
-\figcap{Figure 4: Series RL termination ($R=100\,\Omega$, $L=1\,\mu\text{H}$) - bottom: $V(A)$ source reference; top: $V(B)$ shows inductive overshoot and ringing on each pulse edge.}
+\figcap{Figure 3: Series RL termination ($R=100\,\Omega$, $L=1\,\mu\text{H}$) - top: $V(B)$ shows inductive overshoot to $\approx 1.7\,\text{V}$ then undershoot below $0\,\text{V}$ on each edge; bottom: $V(A)$ shows corresponding ringing at the source.}
 
 \newpage
-**Series R-C (vii):** The capacitor produces an initial response at B (top trace) corresponding to the purely resistive $\Gamma = +1/3$, then the voltage slowly rises toward $V_B = 2\,\text{V}$ (open-circuit limit) with $\tau = 150\,\mu\text{s}$. Within the 2 µs window, the capacitor barely charges, so primarily the transient step-response staircase is visible at B (top trace), with V(A) (bottom trace) as the source reference.
+**Series R-C (vii):** At $t = 0^+$ the capacitor acts as a short, giving $Z_L = R = 100\,\Omega$, $\Gamma = +1/3$, and $V_B = 4/3\,\text{V} \approx 1.33\,\text{V}$. With $\tau = 150\,\mu\text{s} \gg 2\,\mu\text{s}$ window, the capacitor barely charges and $V(B)$ (top trace) remains nearly flat at $\approx 1.33\,\text{V}$.
+
+The $V(A)$ (bottom trace) shows the effect of the $100\,\Omega$ resistor alone — a positive return pulse ($\Gamma = +1/3 > 0$) appearing during the OFF cycle — without any capacitive contribution, since the capacitor is effectively transparent (uncharged, acting as a short) throughout the observation window.
 
 ![ ](assets/sim_1.7_RC.png)
 \nopagebreak[4]
 
-\figcap{Figure 5: Series RC termination ($R=100\,\Omega$, $C=1\,\mu\text{F}$) - top: $V(B)$ shows staircase pattern from multiple reflections as C slowly charges; bottom: incident pulse reference at A.}
+\figcap{Figure 4: Series RC termination ($R=100\,\Omega$, $C=1\,\mu\text{F}$) - top: $V(B) \approx 4/3\,\text{V} \approx 1.33\,\text{V}$ flat ($\tau = 150\,\mu\text{s} \gg$ window, capacitor barely charges); bottom: $V(A)$ source reference.}
 
 \newpage
 
 ## 1.8 - Power Splitter Analysis
 
-The circuit (Figure 6) splits the signal from input line $T_1$ ($Z_0 = 50\,\Omega$) into two equal branches through a symmetric resistive network: a series input resistor $R_1 = 17\,\Omega$, followed by two branches each containing $R_2 = R_3 = 17\,\Omega$ in series with matched output lines $T_2$, $T_3$ ($Z_0 = 50\,\Omega$) loaded by $R_4 = R_5 = 50\,\Omega$.
+The circuit (Figure 5) splits the signal from input line $T_1$ ($Z_0 = 50\,\Omega$) into two equal branches through a symmetric resistive network: a series input resistor $R_1 = 17\,\Omega$, followed by two branches each containing $R_2 = R_3 = 17\,\Omega$ in series with matched output lines $T_2$, $T_3$ ($Z_0 = 50\,\Omega$) loaded by $R_4 = R_5 = 50\,\Omega$.
 
 ![ ](assets/fig2.png)
 \nopagebreak[4]
 
-\figcap{Figure 6: Resistive power splitter - $V_1$ (1\,V$_\text{ac}$) drives matched input line $T_1$ into symmetric resistive splitter ($R_1 = R_2 = R_3 = 17\,\Omega$) with two $50\,\Omega$ output loads.}
+\figcap{Figure 5: Resistive power splitter - $V_1$ (1\,V$_\text{ac}$) drives matched input line $T_1$ into symmetric resistive splitter ($R_1 = R_2 = R_3 = 17\,\Omega$) with two $50\,\Omega$ output loads.}
 
 ### (a) Input Resistance $R_\text{in}$
 
@@ -217,12 +220,12 @@ Adding the series input resistor $R_1$:
 
 $$\boxed{R_\text{in} = R_1 + Z_\text{par} = 17\,\Omega + 33.5\,\Omega = 50.5\,\Omega \approx 50\,\Omega}$$
 
-The AC sweep simulation (Figure 7) confirms $R_\text{in} = 50.5\,\Omega$ flat across the entire band, verifying the impedance-matched design.
+The AC sweep simulation (Figure 6) confirms $R_\text{in} = 50.5\,\Omega$ flat across the entire band, verifying the impedance-matched design.
 
 ![ ](assets/sim_1.8a.png)
 \nopagebreak[4]
 
-\figcap{Figure 7: Power splitter AC sweep - bottom panel: $V(\text{in})/I(R_\text{in}) = 50.5\,\Omega$ perfectly flat from 1\,Hz to 10\,MHz, confirming $R_\text{in} \approx Z_0 = 50\,\Omega$.}
+\figcap{Figure 6: Power splitter AC sweep - bottom panel: $V(\text{in})/I(R_\text{in}) = 50.5\,\Omega$ perfectly flat from 1\,Hz to 10\,MHz, confirming $R_\text{in} \approx Z_0 = 50\,\Omega$.}
 
 ### (b) Power Delivered to Each Load ($R_4$ or $R_5$)
 
@@ -242,20 +245,20 @@ $$\boxed{P_\text{load} = \frac{V_{R_4}^2}{2\,R_\text{load}} = \frac{(0.495)^2}{2
 
 The total available input power is $P_\text{in} = V_\text{in}^2/(2Z_0) = 1/(100) = 10\,\text{mW}$; each load receives 2.45 mW and the matching resistors $R_1, R_2, R_3$ dissipate the remainder.
 
-The simulation (Figure 8) plots $I(R_5)\cdot V(5)$ and $I(R_4)\cdot V(4)$ - the products of **peak** current and **peak** voltage at each load. These are **not RMS quantities**: the average (absorbed) power is obtained by dividing the displayed product by 2:
+The simulation (Figure 7) plots $I(R_5)\cdot V(5)$ and $I(R_4)\cdot V(4)$ - the products of **peak** current and **peak** voltage at each load. These are **not RMS quantities**: the average (absorbed) power is obtained by dividing the displayed product by 2:
 
 $$P_\text{load} = \frac{I(R_4)\cdot V(4)}{2} = \frac{4.90\,\text{mW}}{2} = 2.45\,\text{mW} \quad \text{(confirmed)}$$
 
 ![ ](assets/calc_1.8b.png)
 \nopagebreak[4]
 
-\figcap{Figure 8: Power splitter simulation - peak-power products $I(R_5)\cdot V(5)$ and $I(R_4)\cdot V(4)$ each $\approx 4.90\,\text{mW}$; dividing by 2 gives average power $\approx 2.45\,\text{mW}$ per load.}
+\figcap{Figure 7: Power splitter simulation - peak-power products $I(R_5)\cdot V(5)$ and $I(R_4)\cdot V(4)$ each $\approx 4.90\,\text{mW}$; dividing by 2 gives average power $\approx 2.45\,\text{mW}$ per load.}
 
 \newpage
 
 ## 1.9 - T-Attenuator Design (3 dB, $Z_0 = 50\,\Omega$)
 
-A symmetric T-attenuator (Figure 9) uses two equal series resistors $R_1$ (one in each arm) and a shunt resistor $R_2$. For a 3 dB power attenuation, half the input power reaches the load, giving a voltage attenuation ratio:
+A symmetric T-attenuator (Figure 8) uses two equal series resistors $R_1$ (one in each arm) and a shunt resistor $R_2$. For a 3 dB power attenuation, half the input power reaches the load, giving a voltage attenuation ratio:
 
 $$k = \frac{V_\text{in}}{V_\text{out}} = \sqrt{\frac{P_\text{in}}{P_\text{out}}} = \sqrt{2} \approx 1.4142$$
 
@@ -274,18 +277,18 @@ $$R_2 = 50 \cdot \frac{2\sqrt{2}}{(\sqrt{2})^2 - 1} = 50 \cdot \frac{2.8284}{1} 
 ![ ](assets/fig3.png)
 \nopagebreak[4]
 
-\figcap{Figure 9: T-type power attenuator - series arms $R_1 = 8.58\,\Omega$ and shunt $R_2 = 141.42\,\Omega$ design for 3\,dB attenuation with $Z_0 = 50\,\Omega$.}
+\figcap{Figure 8: T-type power attenuator - series arms $R_1 = 8.58\,\Omega$ and shunt $R_2 = 141.42\,\Omega$ design for 3\,dB attenuation with $Z_0 = 50\,\Omega$.}
 
 ### Simulation Verification
 
-**Input impedance** (Figure 10): $V(\text{in})/I(R_1) = 50.0019\,\Omega$ flat from 1 Hz to 100 MHz, confirming the T-network presents $Z_\text{in} = Z_0 = 50\,\Omega$.
+**Input impedance** (Figure 9): $V(\text{in})/I(R_1) = 50.0019\,\Omega$ flat from 1 Hz to 100 MHz, confirming the T-network presents $Z_\text{in} = Z_0 = 50\,\Omega$.
 
 ![ ](assets/sim_1.9_Zin.png)
 \nopagebreak[4]
 
-\figcap{Figure 10: T-attenuator input impedance - $50.0019\,\Omega$ flat over all frequencies, confirming $Z_\text{in} = Z_0 = 50\,\Omega$.}
+\figcap{Figure 9: T-attenuator input impedance - $50.0019\,\Omega$ flat over all frequencies, confirming $Z_\text{in} = Z_0 = 50\,\Omega$.}
 
-**Power attenuation** (Figure 11): The simulation plots $(V(4)\cdot I(R_4))/2$ and $V(\text{in})\cdot I(R_1)/2$. These are peak-power products; average power is half the displayed value (non-RMS):
+**Power attenuation** (Figure 10): The simulation plots $(V(4)\cdot I(R_4))/2$ and $V(\text{in})\cdot I(R_1)/2$. These are peak-power products; average power is half the displayed value (non-RMS):
 
 $$P_{R_4} = \frac{4.9995\,\text{mW}}{2} \approx 2.5\,\text{mW}$$
 
@@ -298,7 +301,7 @@ For power, $\text{dBW} = 10\log_{10}(P_\text{out}/P_\text{in})$, so $-3\,\text{d
 ![ ](assets/sim_1.9_power.png)
 \nopagebreak[4]
 
-\figcap{Figure 11: T-attenuator power - top: $(V(4)\cdot I(R_4))/2 \approx 5.0\,\text{mW}$ (peak product); bottom: $V(\text{in})\cdot I(R_1)/2 \approx 10.0\,\text{mW}$. Average powers are half: $P_{R_4} \approx 2.5\,\text{mW}$, $P_\text{in} \approx 5.0\,\text{mW}$, confirming $-3\,\text{dB}$ attenuation.}
+\figcap{Figure 10: T-attenuator power - top: $(V(4)\cdot I(R_4))/2 \approx 5.0\,\text{mW}$ (peak product); bottom: $V(\text{in})\cdot I(R_1)/2 \approx 10.0\,\text{mW}$. Average powers are half: $P_{R_4} \approx 2.5\,\text{mW}$, $P_\text{in} \approx 5.0\,\text{mW}$, confirming $-3\,\text{dB}$ attenuation.}
 
 \newpage
 
@@ -309,7 +312,7 @@ The circuit in Figure 11 is a **2nd-order LC $\pi$-type low-pass filter** (also 
 ![ ](assets/fig4.png)
 \nopagebreak[4]
 
-\figcap{Figure 12: Matched LC $\pi$ low-pass filter ($L_2 = 1\,\mu\text{H}$, $C_4 = C_5 = 815\,\text{pF}$, $R_8 = 50\,\Omega$).}
+\figcap{Figure 11: Matched LC $\pi$ low-pass filter ($L_2 = 1\,\mu\text{H}$, $C_4 = C_5 = 815\,\text{pF}$, $R_8 = 50\,\Omega$).}
 
 ## 1.11 - Number of Poles
 
@@ -339,7 +342,7 @@ $$Q = R_8\sqrt{\frac{C_5}{L_2}} = 50\sqrt{\frac{815\,\text{pF}}{1\,\mu\text{H}}}
 
 Since $Q > 1/\sqrt{2} \approx 0.707$, the second-order filter exhibits a slight gain peak just below $f_c$ (underdamped response).
 
-The AC frequency sweep (Figure 13) confirms:
+The AC frequency sweep (Figure 12) confirms:
 
 - **Pass-band** ($f \ll f_c$): gain $\approx 0\,\text{dB}$, phase $\approx 0°$ - the filter is transparent.
 - **Transition region** (~1–10 MHz): gain rolls off steeply at $-40\,\text{dB/decade}$ (2 poles), phase shifts toward $-180°$.
@@ -351,13 +354,13 @@ These results align with the 2-pole answer in Q1.11: the steep roll-off rate ($-
 ![ ](assets/sim_1.12.png)
 \nopagebreak[4]
 
-\figcap{Figure 13: LPF Bode plot - flat 0 dB pass-band up to approximately 1 MHz, gain peak near cutoff at 5.6 MHz, then steep stop-band roll-off exceeding 50 dB at 100 MHz.}
+\figcap{Figure 12: LPF Bode plot - flat 0 dB pass-band up to approximately 1 MHz, gain peak near cutoff at 5.6 MHz, then steep stop-band roll-off exceeding 50 dB at 100 MHz.}
 
 \newpage
 
 ## 1.13 - LPF Input Impedance vs. Frequency
 
-The input impedance $Z_\text{in}(f) = V(n_{004})/I(V_2)$ of the $\pi$-filter (measured from the source) is plotted in Figure 14. Three frequency regimes are visible:
+The input impedance $Z_\text{in}(f) = V(n_{004})/I(V_2)$ of the $\pi$-filter (measured from the source) is plotted in Figure 13. Three frequency regimes are visible:
 
 **Low frequencies ($f \ll f_c \approx 5.6\,\text{MHz}$):** The simulation shows $Z_\text{in} \approx 49.5\,\Omega \approx Z_0 = 50\,\Omega$. At low frequencies the shunt capacitors $C_4$ and $C_5$ are nearly open and $L_2$ is nearly short, so the filter is transparent and the source sees only the matched load $R_8 = 50\,\Omega$ - giving the expected near-perfect match.
 
@@ -370,4 +373,4 @@ This behaviour confirms that the filter is well-matched ($Z_\text{in} \approx 50
 ![ ](assets/sim_1.13.png)
 \nopagebreak[4]
 
-\figcap{Figure 14: LPF input impedance $\frac{V_{in}}{I_{in}}$ flat at $\approx 49.5\,\Omega$ in the pass-band, dipping to a minimum and exhibiting a resonant peak near $f_c \approx 5\,\text{MHz}$, then collapsing at higher frequencies.}
+\figcap{Figure 13: LPF input impedance $\frac{V_{in}}{I_{in}}$ flat at $\approx 49.5\,\Omega$ in the pass-band, dipping to a minimum and exhibiting a resonant peak near $f_c \approx 5\,\text{MHz}$, then collapsing at higher frequencies.}
