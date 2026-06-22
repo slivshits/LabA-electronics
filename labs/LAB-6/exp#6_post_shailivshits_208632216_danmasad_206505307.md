@@ -11,12 +11,13 @@ header-includes:
 # Lab 6: Distributed Circuits and Transmission Lines - Post-Lab Report
 
 **Students:** Shai Livshits · 208632216 &nbsp;|&nbsp; Dan Masad · 206505307
+
 **Date:** 22/06/2026
-**Course:** Lab A - Electronics, TAU Faculty of Engineering, Semester B 2025-2026
+
 
 ---
 
-\newpage
+
 
 ## Q1 - Coaxial Transmission Line Analysis (RG58/U, $Z_0 = 50\,\Omega$)
 
@@ -25,18 +26,18 @@ The setup uses a pulse generator connected via a $1\,\text{m}$ cable to T-Juncti
 ![ ](assets/circ_q1.png)
 \nopagebreak[4]
 
-\figcap{Figure 1: Q1 experimental setup - pulse generator, $1\,\text{m}$ cable, T-Junction A (Ch1), $6\,\text{m}$ coaxial cable, T-Junction B (Ch2), $1\,\text{m}$ cable to load. Characteristic impedance $Z_0 = 50\,\Omega$.}
+\figcap{Figure 1: Q1 experimental setup}
 
 The incident voltage amplitude at A for a matched source ($Z_s = Z_0 = 50\,\Omega$) is $V_\text{inc} = V_s/2 \approx 1\,\text{V}$.
 
-\newpage
+
 
 ### Q1.1.1 - Voltage Waveforms for Each Termination
 
 Seven loads were measured. Ch1 (yellow) = V(A) at T-Junction A; Ch2 (green) = V(B) at T-Junction B. The steady-state load voltage is $V(B) = V_\text{inc}(1 + \Gamma_L)$.
 
 Minor reactive-like transients were observed for some loads, attributed to connector parasitics and cable discontinuities; steady-state values were used for all measurements.
-
+\newpage
 #### (i) Short Circuit ($Z_L \approx 0\,\Omega$, $\Gamma = -1$)
 
 Theory: $V(B) \approx 0$, brief delta-function spike at each transition; $V(A)$ shows the incident wave with a negative-polarity reflected pulse arriving at $\Delta t = 2 \times t_d \approx 56\,\text{ns}$ later.
@@ -44,7 +45,7 @@ Theory: $V(B) \approx 0$, brief delta-function spike at each transition; $V(A)$ 
 ![ ](assets/print_q1_SC.png)
 \nopagebreak[4]
 
-\figcap{Figure 2: Short circuit - Ch2 (green, V(B)) shows a delta-like spike of $\approx -1\,\text{V}$ at each transition, confirming $\Gamma = -1$ and V(B) clamped to 0; Ch1 (yellow, V(A)) shows the incident pulse with the negative reflected phase returning during the OFF cycle.}
+\figcap{Figure 2: Print 1 - Short circuit - Ch2 (green, V(B)) shows a delta-like spike of $\approx -1\,\text{V}$ at each transition, confirming $\Gamma = -1$ and V(B) clamped to 0; Ch1 (yellow, V(A)) shows the incident pulse with the negative reflected phase returning during the OFF cycle.}
 
 #### (ii) $25\,\Omega$ ($\Gamma = -1/3$)
 
@@ -53,7 +54,7 @@ Theory: $V(B) = V_\text{inc}(1 - 1/3) = 2/3\,\text{V} \approx 0.67\,\text{V}$. R
 ![ ](assets/print_q1_25.png)
 \nopagebreak[4]
 
-\figcap{Figure 3: $25\,\Omega$ - Ch2 (green, V(B)) steady at $\approx 0.67\,\text{V}$ (cursor Y2 = 525 mV); Ch1 (yellow, V(A)) shows small negative return during OFF cycle.}
+\figcap{Figure 3: Print 2 - $25\,\Omega$ - V(A)) shows small negative return during OFF cycle.}
 
 #### (iii) $50\,\Omega$ Matched ($\Gamma = 0$)
 
@@ -62,7 +63,7 @@ Theory: No reflection; $V(B) = V(A) = V_\text{inc}$.
 ![ ](assets/print_q1_50.png)
 \nopagebreak[4]
 
-\figcap{Figure 4: $50\,\Omega$ matched - both channels identical (Pk-Pk(1) = Pk-Pk(2) = 1.09 V); no reflected wave.}
+\figcap{Figure 4: Print 3 - $50\,\Omega$ matched - both channels identical (Pk-Pk(1) = Pk-Pk(2) = 1.09 V); no reflected wave.}
 
 #### (iv) $160\,\Omega$ ($\Gamma = +0.524$)
 
@@ -71,7 +72,7 @@ Theory: $V(B) = V_\text{inc}(1 + 0.524) = 1.524\,\text{V}$.
 ![ ](assets/print_q1_160.png)
 \nopagebreak[4]
 
-\figcap{Figure 5: $160\,\Omega$ - Ch2 (green) steady above 1 V; Ch1 (yellow) shows small positive return during OFF cycle. Cursor Y2 = 337.5 mV marks reflected pulse amplitude at A.}
+\figcap{Figure 5: Print 4 - $160\,\Omega$ - Ch2 (green) steady above 1 V; Ch1 (yellow) shows positive return during OFF cycle.}
 
 #### (v) Open Circuit ($Z_L \to \infty$, $\Gamma = +1$)
 
@@ -80,7 +81,7 @@ Theory: $V(B) = 2V_\text{inc} \approx 2\,\text{V}$; reflected pulse returns to A
 ![ ](assets/print_q1_OC.png)
 \nopagebreak[4]
 
-\figcap{Figure 6: Open circuit - Ch2 (green, V(B)) steps up to $\approx 2V_\text{inc}$ (2.00 V/div scale); Ch1 (yellow, V(A)) shows the positive reflected wave arriving as a second ON-state excursion.}
+\figcap{Figure 6: Print 5 - Open circuit - Ch1 (yellow, V(A)) shows the positive reflected wave arriving as a second ON-state excursion.}
 
 #### (vi) Series R-L ($R = 100\,\Omega$, $L = 1\,\mu\text{H}$)
 
@@ -89,7 +90,7 @@ At $t = 0^+$ the inductor acts as OC ($\Gamma \to +1$, $V(B) \to 2\,\text{V}$). 
 ![ ](assets/print_q1_RL.png)
 \nopagebreak[4]
 
-\figcap{Figure 7: Series RL - Ch2 (yellow, V(B)) shows initial peak followed by exponential decay to $4/3\,\text{V}$; Ch1 (green) shows transient return signal; cursor Y2 = 1.3625 V $\approx 4/3 \times 1.025\,\text{V}$ confirming steady-state $\Gamma = +1/3$.}
+\figcap{Figure 7: Print 6 - Series RL - V(B) shows initial peak followed by exponential decay to $4/3\,\text{V}$, confirming steady-state $\Gamma = +1/3$.}
 
 #### (vii) Series R-C ($R = 100\,\Omega$, $C = 1\,\mu\text{F}$)
 
@@ -98,7 +99,7 @@ At $t = 0^+$ the capacitor acts as SC ($\Gamma = +1/3$, $V(B) = 4/3\,\text{V}$).
 ![ ](assets/print_q1_RC.png)
 \nopagebreak[4]
 
-\figcap{Figure 8: Series RC - Ch2 (yellow, V(B)) flat at $\approx 4/3\,\text{V}$ (steady-state initial value); Ch1 (green) shows the positive reflected pulse. Cursor Y2 = 387.5 mV marks reflected amplitude at A, corresponding to $\Gamma_\text{ss,init} = +1/3$.}
+\figcap{Figure 8: Print 7 - Series RC - reflected amplitude at A, corresponding to $\Gamma_\text{ss,init} = +1/3$.}
 
 \newpage
 
@@ -127,7 +128,7 @@ The decade resistance box was used as the termination load (replacing the standa
 ![ ](assets/print_q1_3_decade.png)
 \nopagebreak[4]
 
-\figcap{Figure 9: Decade box as load - reactive behavior (4-trace persistence display). Upper dark traces: reference with a clean $50\,\Omega$ resistor as the termination. Lower bright traces (yellow = V(A), green = V(B)): decade box used as the load - reactive oscillations and ringing are visible at each pulse edge, caused by the parasitic inductance of the resistor windings resonating with the cable capacitance.}
+\figcap{Figure 9: Print 8 - Decade box vs. Regular load - Upper dark traces: reference with a clean $50\,\Omega$ resistor as the termination. Lower bright traces (yellow = V(A), green = V(B)): decade box used as the load.}
 
 The decade box winding creates a series $R$-$L$ network at each element. When the pulse wavefront arrives at T-Junction B, the inductive parasitics cause transient overshoot and damped oscillations on V(B) before settling to the DC-determined reflection coefficient. The oscillation frequency is $f_\text{osc} = 1/(2\pi\sqrt{L_\text{par}C_\text{line}})$ where $C_\text{line}$ is the coaxial cable capacitance.
 
@@ -142,7 +143,7 @@ The same $50\,\Omega$-terminated setup was measured with the $1\,\text{m}$ stub 
 ![ ](assets/print_q1_4_delay.png)
 \nopagebreak[4]
 
-\figcap{Figure 10: Propagation delay measurement with $6\,\text{m}$ cable - cursors mark the leading edges of V(A) (Ch1, yellow) and V(B) (Ch2, green). $\Delta X = 28\,\text{ns}$ is the one-way propagation delay through the $6\,\text{m}$ coaxial cable. Ch1 = 1.00 V/div; Ch2 = 500 mV/div.}
+\figcap{Figure 10: Print 9 - Propagation delay measurement with $6\,\text{m}$ cable (Top) vs. $1\,\text{m}$ cable (Bottom).}
 
 With the $1\,\text{m}$ cable only, V(A) and V(B) were nearly coincident (delay $<$ 5 ns). With the $6\,\text{m}$ cable, the measured delay is:
 
@@ -181,24 +182,24 @@ The power splitter uses $R_1 = R_3 = 16\,\Omega$ (series arms) and $R_2 = 68\,\O
 ![ ](assets/circ_q2.png)
 \nopagebreak[4]
 
-\figcap{Figure 11: Power splitter experimental circuit - $R_1 = 16\,\Omega$ (series input), $R_2 = 68\,\Omega$ (shunt per branch), $R_3 = 16\,\Omega$ (series output), $T_\text{1m}$ output transmission line, $R_4 = 50\,\Omega$ load (one branch shown as mockup).}
+\figcap{Figure 11: Power splitter experimental circuit.}
 
-**Input impedance verification:** With two branches of shunt $R_2 = 68\,\Omega$ in parallel plus series $R_1 = 16\,\Omega$:
+**Input impedance:** Seen from the source, $R_1$ is in series with the parallel combination of the shunt $R_2$ and the loaded output arm ($R_\text{tot} = R_3 + R_\text{in} = 16 + 50 = 66\,\Omega$):
 
-$$Z_\text{in} = R_1 + (R_2 \| R_2) = 16 + \frac{68 \times 68}{68 + 68} = 16 + 34 = 50\,\Omega \checkmark$$
+$$Z_\text{in} = R_1 + (R_\text{tot} \| R_2) = 16 + \frac{66 \times 68}{66 + 68} = 16 + 33.5 = 49.5\,\Omega \approx 50\,\Omega \checkmark$$
 
 ### Q2.1 - Reflection Coefficient
 
 ![ ](assets/print_q2_1_refl.png)
 \nopagebreak[4]
 
-\figcap{Figure 12: Power splitter reflection measurement (4-trace persistence display) - V(A) (yellow) and reflected component visible on V(A) during OFF cycles. Small positive $\Gamma$ confirms near-matched input impedance with minor reactive effects from connectors.}
+\figcap{Figure 12: Print 10 - Power splitter reflection measurement}
 
 | Load | $V_\text{inc}$ [V] | $V_\text{ref}$ [V] | $\Gamma_\text{meas}$ | $\Gamma_\text{theory}$ |
 |:-----|:---:|:---:|:---:|:---:|
 | Splitter ($Z_\text{in} = 50\,\Omega$) | 1.063 | 0.088 | $+0.082$ | $\approx 0$ |
 
-The small $\Gamma = +0.082$ (vs. ideal 0) is attributable to reactive parasitics from BNC connectors and T-junction discontinuities, and to component tolerances ($R_1 = 16\,\Omega$ vs. design $17\,\Omega$). The line is considered matched.
+The small $\Gamma = +0.082$ (vs. ideal 0) is attributable to reactive parasitics from BNC connectors and T-junction discontinuities, and to component tolerances. The line is considered matched.
 
 ### Q2.2 - Power Delivered to the Load
 
@@ -207,7 +208,7 @@ Assuming $R_\text{in} \approx 50\,\Omega$ (confirmed Q2.1), peak voltage measure
 ![ ](assets/print_q2_2_power.png)
 \nopagebreak[4]
 
-\figcap{Figure 13: Power splitter voltage measurement - Ch1 (yellow, V(A)) Pk-Pk = 520 mV and Ch2 (green, V(B) or second branch) Pk-Pk = 540 mV; both outputs are equal, confirming symmetric power splitting.}
+\figcap{Figure 13: Power splitter voltage measurement}
 
 $$P_\text{in} = \frac{(1.013)^2}{2 \times 50} = 10.25\,\text{mW}$$
 
@@ -218,16 +219,53 @@ $$P_\text{load} = \frac{(0.531)^2}{2 \times 50} = 2.82\,\text{mW}$$
 | Input (A) | 1.013 | 50 | 10.25 | 10.00 | 2.5% |
 | Load (B) | 0.531 | 50 | 2.82 | 2.45 | 15.1% |
 
-The 15% deviation in $P_\text{load}$ is explained by the component values differing from the design: $R_1 = 16\,\Omega$ instead of $17\,\Omega$ changes the voltage division ratio, raising $V_\text{load}$ by approximately 7%, increasing power by ~15%. A recalculation with $R_1 = 16\,\Omega$ gives $V_\text{load} \approx 0.51\,\text{V}$, matching the measured value.
+
+
+### Q2.3 - Is This an Ideal Power Splitter?
+
+**No.** The circuit achieves two properties of an ideal equal-split divider — input matching and symmetric power division — but fails on two fundamental criteria:
+
+**1. Significant insertion loss.** An ideal lossless 2-way splitter delivers $-3\,\text{dB}$ (50%) of input power to each output port. Here, $P_\text{in} = 10.25\,\text{mW}$ but each branch receives only $P_B = 2.82\,\text{mW}$ (27.5%), with the remaining $\approx 4.61\,\text{mW}$ (45%) dissipated in $R_1$, $R_2$, $R_3$. The resistive network is inherently lossy.
+
+**2. No port isolation.** In an ideal splitter (e.g., Wilkinson divider), the two output ports are mutually isolated — a signal injected at one output does not appear at the other. Here, the outputs are directly connected through $R_2$ and the $R_1$/$R_3$ arms, providing zero isolation.
+
+**What it does satisfy:**
+
+- Input matching: $Z_\text{in} = 49.5\,\Omega \approx 50\,\Omega$ ($\Gamma \approx 0$, confirmed Q2.1).
+- Equal split: circuit symmetry ensures both branches deliver identical power.
+
+In conclusion, this is a **resistive voltage divider used as a power divider**, not a true power splitter. It trades insertion loss and port isolation for simplicity, broadband operation (no reactive elements), and exact input impedance matching.
 
 ### Q2.4.1 - Equal Power on Both Branches
 
 ![ ](assets/print_q2_4_equal.png)
 \nopagebreak[4]
 
-\figcap{Figure 14: Q2.4.1 - single branch measurement showing V(A) (yellow, Ch1 $\approx 1\,\text{V}$) and V(B) (green, Ch2 = 531.25 mV per cursor). The two output branches carry equal power because the voltage at each is identical (symmetric circuit) and the load $R_4 = 50\,\Omega$ is equal on both sides.}
+\figcap{Figure 14: Print 11 - Q2.4.1 - Two branch measurement.}
 
 The power is equal on both branches since: (a) the circuit is symmetric, (b) the voltage at each output equals $V_\text{in} \times R_4/(R_3 + R_4)$, identical for both branches. The splitter total input impedance is $R_1 + 68\|68 = 16 + 34 = 50\,\Omega$ confirming the design.
+
+Yellow trace: $V(\text{new branch})$; green trace: $V(B)$. Both channels show identical amplitude, confirming equal power split.
+
+### Q2.4.2 - Power at Each Branch
+
+From the Q2.4.1 oscilloscope (identical amplitudes on both channels), and using the measured $V_A = 1.013\,\text{V}$ from Q2.2:
+
+By symmetry $V(\text{new branch}) = V(B)$; each branch power:
+
+$$P_\text{each} = \frac{V_B^2}{2 R} = \frac{(0.531)^2}{2 \times 50} = 2.82\,\text{mW}$$
+
+**Total power balance:**
+
+| Port | $V_\text{peak}$ [V] | $P$ [mW] |
+|:---|:---:|:---:|
+| Input (A) | 1.013 | 10.25 |
+| Branch B | 0.531 | 2.82 |
+| New branch | 0.531 | 2.82 |
+| **Total to loads** | — | **5.64** |
+| Dissipated in resistors | — | 4.61 |
+
+The two output branches together consume 5.64 mW (55% of input power); the remaining 4.61 mW is dissipated in $R_1$, $R_2$, $R_3$. This is consistent with the resistive splitter design — equal split but with inherent resistive loss.
 
 \newpage
 
@@ -253,7 +291,7 @@ Voltage transmission: $V_\text{load}/V_A = 0.694$ (theoretical), i.e., $-3.17\,\
 ![ ](assets/print_q3_1_refl.png)
 \nopagebreak[4]
 
-\figcap{Figure 16: T-attenuator reflection measurement (4-trace display) - V(A) (yellow) and V(B) (green) with small positive reflected component on V(A); near-zero reflection confirms matched input impedance.}
+\figcap{Figure 16: Print 12 - T-attenuator reflection measurement  - V(A) (yellow) and V(B) (green) with small positive reflected component on V(A); near-zero reflection confirms matched input impedance.}
 
 | Load | $V_\text{inc}$ [V] | $V_\text{ref}$ [V] | $\Gamma_\text{meas}$ | $\Gamma_\text{theory}$ |
 |:-----|:---:|:---:|:---:|:---:|
@@ -322,7 +360,7 @@ The filter uses $L_3 = 1\,\mu\text{H}$, $C_6 = C_7 = 821\,\text{pF}$ (nominal $8
 ![ ](assets/circ_q4.png)
 \nopagebreak[4]
 
-\figcap{Figure 18: LC $\pi$ low-pass filter circuit - $L_3 = 1\,\mu\text{H}$, $C_6 = C_7 = 821\,\text{pF}$ (design 815 pF), $R_7 = 50\,\Omega$, with $T_\text{1m}$ input/output cables and T-junctions at each port.}
+\figcap{Figure 18: LC $\pi$ low-pass filter circuit - inside the transmission line}
 
 **Theoretical resonant frequency with $821\,\text{pF}$:**
 
@@ -383,7 +421,7 @@ The small increase in $C$ from $815\,\text{pF}$ to $821\,\text{pF}$ (0.7%) has n
 ![ ](assets/print_q4_debug.png)
 \nopagebreak[4]
 
-\figcap{Figure 20: Wideband oscilloscope sweep with persistence (50.0 kSa/s). Upper envelope (yellow, Ch1): $V_A$ at the input T-junction, showing the frequency-dependent reflection/absorption behaviour from 0.1 to 20 MHz. Lower envelope (green, Ch2): filtered output $V_\text{out}$, showing the filter pass-band ($\sim 0$--$8\,\text{MHz}$) and deep stop-band attenuation above. Pk-Pk(1) = 6.1 V; Pk-Pk(2) = 3.62 V (envelope extremes across all swept frequencies). The shape of the $V_A$ envelope mirrors the reflection coefficient response — see Q4.1.2.}
+\figcap{Figure 20: Wideband oscilloscope sweep 0.1-20 MHz. Upper envelope (yellow, Ch1): $V_A$ at the input T-junction, showing the frequency-dependent reflection/absorption behaviour. Lower envelope (green, Ch2): filtered output $V_\text{out}$, showing the filter pass-band ($\sim 0$--$8\,\text{MHz}$) and deep stop-band attenuation above.}
 
 \newpage
 
