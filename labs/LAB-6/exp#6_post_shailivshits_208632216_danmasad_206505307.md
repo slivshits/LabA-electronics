@@ -413,7 +413,7 @@ $$\Gamma = \frac{V_A}{V_\text{in}} - 1 = \frac{V_A}{3.2} - 1$$
 ![ ](assets/q4_refl_plot.png)
 \nopagebreak[4]
 
-\figcap{Figure 21: Q4.1.2 - reflection coefficient $\Gamma$ vs. frequency (0.1--30 MHz). Grey dashed: filter-only theory (monotonically negative, no cable effects). Red: cable + filter theory including 6 m standing-wave resonances. Teal circles: measured data. The cable resonances at $f_{\lambda/4}=8.9\,\text{MHz}$, $f_{\lambda/2}=17.8\,\text{MHz}$, and $3\lambda/4=26.7\,\text{MHz}$ drive the sign oscillations seen in both the theoretical and measured curves.}
+\figcap{Figure 21: Q4.1.2 - reflection coefficient $\Gamma$ vs. frequency (0.1--30 MHz). Red curve: filter-only ABCD theory (monotonically negative, no cable effects). Teal circles: measured data. The sign oscillations in the measured curve are caused by cable standing-wave resonances at $f_{\lambda/4}=8.9\,\text{MHz}$, $f_{\lambda/2}=17.8\,\text{MHz}$, and $3\lambda/4=26.7\,\text{MHz}$ — not captured by the filter-only theory.}
 
 **Explanation of the $\Gamma$ sign flip near 10 MHz and sign reversal at 20 MHz:**
 
