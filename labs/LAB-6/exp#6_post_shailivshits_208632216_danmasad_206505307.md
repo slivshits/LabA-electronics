@@ -360,18 +360,19 @@ $V_\text{in} = 3.2\,\text{Vpp}$ held constant. Gain $= V_\text{out}/V_\text{in}$
 | 10   | 0.50 | 1.05 | -9.68 |
 | 11   | 1.33 | 0.68 | -13.45 |
 | 20   | 5.00 | 0.119 | -28.59 |
+| 30   | — | 0.112 | -29.04 |
 
 ![ ](assets/q4_gain_plot.png)
 \nopagebreak[4]
 
-\figcap{Figure 19: Q4.1.1 - filter gain vs frequency (0.1--20 MHz). Measured data (teal circles) compared to theoretical 2nd-order response (red dashed). The $-3\,\text{dB}$ crossover is at $f_{-3\text{dB}} = 8.3\,\text{MHz}$; resonant peak near $f_0 = 5.56\,\text{MHz}$; steep roll-off in stop band.}
+\figcap{Figure 19: Q4.1.1 - filter gain vs frequency (0.1--30 MHz). Measured data (teal circles) compared to theoretical ABCD-matrix response (red curve). The $-3\,\text{dB}$ crossover is at $f_{-3\text{dB}} = 8.3\,\text{MHz}$; resonant peak near $f_0 = 5.56\,\text{MHz}$; steep roll-off in stop band.}
 
 **Key observations:**
 
 - **Pass-band** ($f < 4\,\text{MHz}$): Gain $\approx 0\,\text{dB}$, filter transparent.
 - **Resonant gain peak** at $5.6$--$6\,\text{MHz}$: gain recovers to $\approx -0.65\,\text{dB}$ after the local minimum at $\sim 4\,\text{MHz}$, consistent with underdamped 2nd-order response ($Q = 1.43 > 1/\sqrt{2}$).
 - **Measured $f_{-3\text{dB}} = 8.3\,\text{MHz}$** vs. theoretical $7.9\,\text{MHz}$ — 5.1% error.
-- **Stop band**: $-9.7\,\text{dB}$ at $10\,\text{MHz}$, $-13.5\,\text{dB}$ at $11\,\text{MHz}$, $-28.6\,\text{dB}$ at $20\,\text{MHz}$.
+- **Stop band**: $-9.7\,\text{dB}$ at $10\,\text{MHz}$, $-13.5\,\text{dB}$ at $11\,\text{MHz}$, $-28.6\,\text{dB}$ at $20\,\text{MHz}$, $-29.0\,\text{dB}$ at $30\,\text{MHz}$.
 
 The small increase in $C$ from $815\,\text{pF}$ to $821\,\text{pF}$ (0.7%) has negligible effect on $f_0$. The measured $f_{-3\text{dB}}$ is 5.1% higher than theory, likely due to parasitic inductance and capacitance from the filter PCB and connectors slightly modifying the effective $Q$.
 
@@ -407,11 +408,12 @@ $$\Gamma = \frac{V_A}{V_\text{in}} - 1 = \frac{V_A}{3.2} - 1$$
 | **10**   | **0.50** | **$-0.844$** | 1.5 |
 | 11   | 1.33 | $-0.584$ | 4.7 |
 | **20**   | **5.00** | **$+0.563$** | 5.0 |
+| **30**   | **5.90** | **$+0.844$** | 1.5 |
 
 ![ ](assets/q4_refl_plot.png)
 \nopagebreak[4]
 
-\figcap{Figure 21: Q4.1.2 - reflection coefficient $\Gamma$ vs. frequency (0.1--20 MHz). The coefficient is negative in the stop-band (reactive filter load reflects with inversion), reaches $\Gamma_\text{min} = -0.844$ at $10\,\text{MHz}$, then flips to large positive values above $\sim 17\,\text{MHz}$ due to $\lambda/2$ cable resonance.}
+\figcap{Figure 21: Q4.1.2 - reflection coefficient $\Gamma$ vs. frequency (0.1--30 MHz). Grey dashed: filter-only theory (monotonically negative, no cable effects). Red: cable + filter theory including 6 m standing-wave resonances. Teal circles: measured data. The cable resonances at $f_{\lambda/4}=8.9\,\text{MHz}$, $f_{\lambda/2}=17.8\,\text{MHz}$, and $3\lambda/4=26.7\,\text{MHz}$ drive the sign oscillations seen in both the theoretical and measured curves.}
 
 **Explanation of the $\Gamma$ sign flip near 10 MHz and sign reversal at 20 MHz:**
 
@@ -431,23 +433,4 @@ $$f_{\lambda/2} = \frac{v_p}{2L} = \frac{2.14 \times 10^8}{2 \times 6} = 17.8\,\
 
 At $\lambda/2$, the cable repeats the load impedance at the measurement point. The highly reactive filter load (dominated by $C_6$ shunting to ground) combined with the $\lambda/2$ standing-wave causes **constructive interference** at node A, boosting $V_A$ well above $V_\text{in}$ ($V_A = 5.0\,\text{V} > V_\text{in} = 3.2\,\text{V}$ at $20\,\text{MHz}$). This makes $\Gamma = V_A/3.2 - 1 = +0.56$ positive. This is a pure standing-wave artifact of the transmission-line measurement setup, not a property of the filter itself.
 
-The pattern repeats at higher-order resonances ($30\,\text{MHz} \approx 3\lambda/4$), confirming the cable resonance origin.
-
-\newpage
-
-## Summary of Results
-
-| Measurement | Theoretical | Measured | $|\%\,\text{err}|$ |
-|:---|:---:|:---:|:---:|
-| Q1: $\Gamma$ at SC | $-1.000$ | $-0.964$ | 3.6% |
-| Q1: $\Gamma$ at $50\,\Omega$ | $0.000$ | $0.000$ | 0% |
-| Q1: $\Gamma$ at OC | $+1.000$ | $+0.964$ | 3.6% |
-| Q1: $v_p$ [$\times 10^8$ m/s] | $2.02$ | $2.14$ | 5.9% |
-| Q2: $Z_\text{in}$ [$\Omega$] | $50$ | $\approx 50$ (from $\Gamma$) | $<2\%$ |
-| Q2: $P_\text{load}$ [mW] | $2.45$ | $2.82$ | 15.1% |
-| Q3: $P_\text{load}$ [mW] | $5.00$ | $4.90$ | 2.0% |
-| Q3: $V_A/V_\text{load}$ ratio | $\sqrt{2} = 1.414$ | $1.464$ | 3.5% |
-| Q3: $R_\text{in}$ [$\Omega$] | $52.9$ | $53.6$ | 1.3% |
-| Q4: $f_{-3\text{dB}}$ [MHz] | $7.9$ | $8.3$ | 5.1% |
-
-All results are in good agreement with theory. The main sources of discrepancy are: component tolerances (resistor and capacitor values differ from design), parasitic elements in connectors and T-junctions, and transmission-line standing-wave effects in the frequency-domain measurements of Q4.
+The pattern repeats at higher-order resonances ($30\,\text{MHz} \approx 3\lambda/4$), confirming the cable resonance origin. The measured $\Gamma = +0.844$ at $30\,\text{MHz}$ mirrors the $|\Gamma| = 0.844$ minimum at $10\,\text{MHz}$ (another odd-quarter-wavelength resonance), supporting this interpretation.
