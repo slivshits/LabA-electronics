@@ -122,16 +122,16 @@ Steady-state amplitudes were read from the oscilloscope and $\Gamma_\text{meas} 
 
 ### Q1.3 - Reactive Properties of the Decade Resistance Box
 
-A decade resistance box was connected in parallel with a $50\,\Omega$ termination. While the decade box is nominally resistive, its wound-resistor construction introduces significant parasitic inductance ($L_\text{par}$), making it behave as a reactive load at the pulse rise times involved.
+The decade resistance box was used as the termination load (replacing the standard fixed resistor). Although nominally resistive, its wound-resistor construction introduces significant parasitic inductance ($L_\text{par}$), making it behave as a reactive load at the fast pulse rise times of the experiment.
 
 ![ ](assets/print_q1_3_decade.png)
 \nopagebreak[4]
 
-\figcap{Figure 9: Decade box reactive behavior (4-trace persistence display). Upper dark traces: reference measurement with clean $50\,\Omega$ termination only. Lower bright traces (yellow = V(A), green = V(B)): decade box connected in parallel - reactive oscillations and ringing are clearly visible at each pulse edge, caused by parasitic inductance in the resistor windings of the decade box resonating with the cable capacitance.}
+\figcap{Figure 9: Decade box as load - reactive behavior (4-trace persistence display). Upper dark traces: reference with a clean $50\,\Omega$ resistor as the termination. Lower bright traces (yellow = V(A), green = V(B)): decade box used as the load - reactive oscillations and ringing are visible at each pulse edge, caused by the parasitic inductance of the resistor windings resonating with the cable capacitance.}
 
-The decade box winding creates a series $R$-$L$ network at each element. When the pulse wavefront arrives at T-Junction B, the inductive parasitics cause transient overshoot and damped oscillations on V(B) before settling to the DC-determined reflection coefficient. The oscillation frequency is determined by $f_\text{osc} = 1/(2\pi\sqrt{L_\text{par}C_\text{line}})$ where $C_\text{line}$ is the coaxial cable capacitance.
+The decade box winding creates a series $R$-$L$ network at each element. When the pulse wavefront arrives at T-Junction B, the inductive parasitics cause transient overshoot and damped oscillations on V(B) before settling to the DC-determined reflection coefficient. The oscillation frequency is $f_\text{osc} = 1/(2\pi\sqrt{L_\text{par}C_\text{line}})$ where $C_\text{line}$ is the coaxial cable capacitance.
 
-This demonstrates that at high frequencies or fast pulse edges, the distributed and parasitic elements of physical components must be considered; the decade box is not a purely resistive element in pulsed applications.
+This demonstrates that at high frequencies or fast pulse edges, the distributed and parasitic elements of physical components must be considered; the decade box is not a purely resistive load in pulsed applications.
 
 \newpage
 
@@ -160,11 +160,15 @@ $$v_{p,\text{theory}} = \frac{c}{\sqrt{\varepsilon_r}} = \frac{3\times10^8}{\sqr
 
 $$\%\,\text{error} = \left|\frac{0.714 - 0.674}{0.674}\right| \times 100\% = 5.9\%$$
 
-**Characteristic impedance via voltage divider:** Since the source impedance is $Z_s = Z_0 = 50\,\Omega$, the incident voltage at A equals half the open-circuit source voltage: $V_\text{inc} = V_s/2$. From the matched-load case ($\Gamma = 0$, no reflection), the measured $V_\text{inc} = 1.09\,\text{V}$ implies $V_s = 2.18\,\text{V}$. For any other load:
+**Characteristic impedance via voltage divider:** The generator is rated at $V_\text{in} = 1\,\text{V}$ into a $50\,\Omega$ matched load, so its open-circuit (Thevenin) voltage is $V_\text{oc} = 2\,\text{V}$. With source impedance $Z_s = 50\,\Omega$, node A satisfies:
 
-$$Z_0 = Z_s \cdot \frac{V_A}{V_s - V_A}$$
+$$V_A = V_\text{oc} \cdot \frac{Z_0}{Z_s + Z_0} \implies Z_0 = Z_s \cdot \frac{V_A}{V_\text{oc} - V_A}$$
 
-Applied to the $50\,\Omega$ case (by definition matched) this yields $Z_0 = 50\,\Omega$. The near-zero $\Gamma$ for the $50\,\Omega$ load independently confirms $Z_0 \approx 50\,\Omega$.
+In practice the measured amplitude at A with the $50\,\Omega$ load was $V_A = 1.0215\,\text{V}$ (not the nominal $1\,\text{V}$), reflecting a cable characteristic impedance slightly above $50\,\Omega$:
+
+$$Z_0 = 50 \cdot \frac{1.0215}{2.000 - 1.0215} = 50 \cdot \frac{1.0215}{0.9785} = \mathbf{52.2\,\Omega}$$
+
+The measured $Z_0 = 52.2\,\Omega$ is within the typical $\pm5\%$ tolerance of RG58/U cable. The result is consistent with a near-zero reflection coefficient at the $50\,\Omega$ load.
 
 The 5.9% over-estimate of $v_p$ is consistent with the RG58/U polyethylene dielectric having an effective $\varepsilon_r$ slightly below the nominal 2.2, which is a minimum value in the datasheet.
 
@@ -242,7 +246,7 @@ $$Z_\text{in} = R_1 + R_2\|(R_1 + Z_L) = 10 + \frac{150 \times 60}{210} = 10 + 4
 
 $$\Gamma_\text{theory} = \frac{Z_\text{in} - Z_0}{Z_\text{in} + Z_0} = \frac{52.9 - 50}{52.9 + 50} = \frac{2.9}{102.9} = +0.028 \approx 0$$
 
-Voltage transmission (ABCD analysis): $V_\text{load}/V_A = 0.694$ (theoretical), i.e., $-3.17\,\text{dB}$.
+Voltage transmission: $V_\text{load}/V_A = 0.694$ (theoretical), i.e., $-3.17\,\text{dB}$.
 
 ### Q3.1 - Reflection Coefficient
 
