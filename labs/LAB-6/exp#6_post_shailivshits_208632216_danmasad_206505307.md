@@ -37,7 +37,9 @@ The incident voltage amplitude at A for a matched source ($Z_s = Z_0 = 50\,\Omeg
 Seven loads were measured. Ch1 (yellow) = V(A) at T-Junction A; Ch2 (green) = V(B) at T-Junction B. The steady-state load voltage is $V(B) = V_\text{inc}(1 + \Gamma_L)$.
 
 Minor reactive-like transients were observed for some loads, attributed to connector parasitics and cable discontinuities; steady-state values were used for all measurements.
+
 \newpage
+
 #### (i) Short Circuit ($Z_L \approx 0\,\Omega$, $\Gamma = -1$)
 
 Theory: $V(B) \approx 0$, brief delta-function spike at each transition; $V(A)$ shows the incident wave with a negative-polarity reflected pulse arriving at $\Delta t = 2 \times t_d \approx 56\,\text{ns}$ later.
@@ -45,16 +47,21 @@ Theory: $V(B) \approx 0$, brief delta-function spike at each transition; $V(A)$ 
 ![ ](assets/print_q1_SC.png)
 \nopagebreak[4]
 
-\figcap{Figure 2: Print 1 - Short circuit - Ch2 (green, V(B)) shows a delta-like spike of $\approx -1\,\text{V}$ at each transition, confirming $\Gamma = -1$ and V(B) clamped to 0; Ch1 (yellow, V(A)) shows the incident pulse with the negative reflected phase returning during the OFF cycle.}
+\figcap{Figure 2: Print 1 - Short circuit - Ch1 (yellow, V(A)) shows the incident pulse with the negative reflected phase.}
+
+\newpage
 
 #### (ii) $25\,\Omega$ ($\Gamma = -1/3$)
 
 Theory: $V(B) = V_\text{inc}(1 - 1/3) = 2/3\,\text{V} \approx 0.67\,\text{V}$. Reflected pulse at A is negative.
 
 ![ ](assets/print_q1_25.png)
+
 \nopagebreak[4]
 
 \figcap{Figure 3: Print 2 - $25\,\Omega$ - V(A)) shows small negative return during OFF cycle.}
+
+\newpage
 
 #### (iii) $50\,\Omega$ Matched ($\Gamma = 0$)
 
@@ -74,6 +81,8 @@ Theory: $V(B) = V_\text{inc}(1 + 0.524) = 1.524\,\text{V}$.
 
 \figcap{Figure 5: Print 4 - $160\,\Omega$ - Ch2 (green) steady above 1 V; Ch1 (yellow) shows positive return during OFF cycle.}
 
+\newpage
+
 #### (v) Open Circuit ($Z_L \to \infty$, $\Gamma = +1$)
 
 Theory: $V(B) = 2V_\text{inc} \approx 2\,\text{V}$; reflected pulse returns to A with same polarity, appearing as a second consecutive "ON" interval on Ch1.
@@ -85,7 +94,7 @@ Theory: $V(B) = 2V_\text{inc} \approx 2\,\text{V}$; reflected pulse returns to A
 
 #### (vi) Series R-L ($R = 100\,\Omega$, $L = 1\,\mu\text{H}$)
 
-At $t = 0^+$ the inductor acts as OC ($\Gamma \to +1$, $V(B) \to 2\,\text{V}$). In steady state ($L \to $ wire): $\Gamma_\text{ss} = +1/3$, $V(B) \to 4/3\,\text{V}$. Time constant $\tau = L/(R + Z_0) = 1\,\mu\text{H}/150\,\Omega \approx 6.7\,\text{ns}$.
+At $t = 0^+$ the inductor acts as OC ($\Gamma \to +1$, $V(B) \to 2\,\text{V}$). In steady state (L \to  wire): $\Gamma_\text{ss} = +1/3$, $V(B) \to 4/3\,\text{V}$. Time constant $\tau = L/(R + Z_0) = 1\,\mu\text{H}/150\,\Omega \approx 6.7\,\text{ns}$.
 
 ![ ](assets/print_q1_RL.png)
 \nopagebreak[4]
