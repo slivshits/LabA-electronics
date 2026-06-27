@@ -4,6 +4,12 @@ header-includes:
 - \definecolor{labteal}{HTML}{006b73}
 - \newcommand{\figcap}[1]{\begin{center}\textcolor{labteal}{\textit{#1}}\end{center}}
 - \makeatletter
+- \newcount\figscalelevel
+- \figscalelevel=0
+- \newcommand{\figscalexlarge}{\figscalelevel=2\relax}
+- \newcommand{\figscalelarge}{\figscalelevel=1\relax}
+- \newcommand{\figscalenormal}{\figscalelevel=0\relax}
+- \renewcommand*\pandocbounded[1]{\begin{center}\sbox\pandoc@box{#1}\ifcase\figscalelevel\relax\Gscale@div\@tempa{0.38\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}\Gscale@div\@tempb{0.55\linewidth}{\wd\pandoc@box}\or\Gscale@div\@tempa{0.57\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}\Gscale@div\@tempb{0.825\linewidth}{\wd\pandoc@box}\or\Gscale@div\@tempa{0.855\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}\Gscale@div\@tempb{1.2375\linewidth}{\wd\pandoc@box}\fi\ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi\ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}\else\usebox{\pandoc@box}\fi\end{center}}
 - \renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{2em}{-3.25ex plus -1ex minus -.2ex}{1.5ex plus .2ex}{\normalfont\normalsize\bfseries}}
 - \makeatother
 ---
@@ -20,13 +26,14 @@ header-includes:
 
 ## 1. Op-Amp Properties Table (Datasheet Summary)
 
-| Parameter | TL071M | TL061M | LM741 |
-|:---|:---:|:---:|:---:|
-| Input offset voltage $V_{io}$ | 3 mV (typ) | 3 mV (typ) | 1 mV (typ), 6 mV (max) |
-| Large-signal voltage gain $A_{OL}$ | 200 V/mV (typ) | 200 V/mV (typ) | 200 V/mV (typ) |
-| CMRR | 86 dB (typ) | 80 dB (typ) | 90 dB (typ) |
-| Slew rate $SR$ (unity-gain) | 13 V/μs | 3.5 V/μs | 0.5 V/μs |
-| Unity-gain bandwidth $f_t$ / GBW | 3 MHz | 1 MHz | 1 MHz |
+| Parameter | TL071M | TL061M | LM741 | LM741A |
+|:---|:---:|:---:|:---:|:---:|
+| Manufacturer | Texas Instruments | Texas Instruments | Texas Instruments | Texas Instruments |
+| Input offset voltage $V_{io}$ | 3 mV (typ), 6 mV (max) | 3 mV (typ), 6 mV (max) | 1 mV (typ), 5 mV (max) | 0.8 mV (typ), 3 mV (max) |
+| Large-signal voltage gain $A_{OL}$ | 200 V/mV (typ), 35 V/mV (min) | 6 V/mV (typ), 4 V/mV (min) | 50 V/mV (typ), 85 V/mV (max) | 50 V/mV (min) |
+| CMRR | 86 dB (typ), 80 dB (min) | 86 dB (typ), 80 dB (min) | 95 dB (typ), 80 dB (min) | 95 dB (typ), 80 dB (min) |
+| Slew rate $SR$ (unity-gain) | 13 V/us (typ), 5 V/us (min) | 3.5 V/us (typ), 1.5 V/us (min) | 0.5 V/us (typ) | 0.7 V/us (typ), 0.3 V/us (min) |
+| Unity-gain bandwidth $f_t$ / GBW | 3 MHz (typ) | 1 MHz (typ) | — | 1.5 MHz (typ), 0.437 MHz (min) |
 
 \newpage
 
@@ -101,7 +108,7 @@ We are told to assume the (measured) output is $V_{out} = \mathrm{ABC}\,\mathrm{
 ![ ](assets/figure2.png)
 \nopagebreak[4]
 
-\figcap{Figure 1 - Figure 2: Inverting amplifier used to observe input offset voltage ($R_{in}=100\,\Omega$, $R_f=100\,\mathrm{k}\Omega$).}
+\figcap{Figure 1: Non-ideal op-amp model with input offset voltage $V_{io}$ at the $+$ input ($R_f=100\,\mathrm{k}\Omega$, $R_{in}=100\,\Omega$).}
 
 ### 4.2 Calculation of $V_{io}$ and Its Measurability
 
@@ -128,7 +135,7 @@ Figure 3 shows the first-stage differential pair that emulates the asymmetry cau
 ![ ](assets/figure3.png)
 \nopagebreak[4]
 
-\figcap{Figure 2 - Figure 3: BJT differential pair with potentiometer $R_{10}$–$R_{11}$ for offset null.}
+\figcap{Figure 2: BJT differential pair with potentiometer $R_{10}$–$R_{11}$ for offset null.}
 
 **Analytical estimate** (with $R_{10}, R_{11}$ disconnected, $V_{BE}$ equal for both transistors):
 
@@ -138,32 +145,93 @@ $$I_{E4} = \frac{R_8}{R_7+R_8}\times I_1 = \frac{807}{1523}\times 1\,\mathrm{mA}
 
 $$V_{out+} = 15 - 0.530\times 3 = 13.41\,\mathrm{V}, \quad V_{out-} = 15 - 0.470\times 3 = 13.59\,\mathrm{V}$$
 
-> **[SIMULATION NEEDED — 4.3]**
-> Run a PSpice bias-point simulation of Figure 3 with $R_{10}, R_{11}$ disconnected. Record $V_{out+}$ and $V_{out-}$ (no print required).
+**Simulation (verification).** The PSpice bias-point simulation of Figure 3 (with $R_{10}, R_{11}$ disconnected) confirms the analytical estimate:
+
+\figscalelarge
+
+![ ](assets/fig_4.3_voltages.png)
+
+\figscalenormal
+\nopagebreak[4]
+
+\figcap{Figure 3: Bias-point node voltages, $V_{out+}=13.43\,\mathrm{V}$, $V_{out-}=13.60\,\mathrm{V}$.}
+
+\figscalelarge
+
+![ ](assets/fig_4.3_currents.png)
+
+\figscalenormal
+\nopagebreak[4]
+
+\figcap{Figure 4: Branch currents, $I(R_7)=528\,\mu\mathrm{A}$ (Q4 branch), $I(R_8)=472\,\mu\mathrm{A}$ (Q5 branch).}
+
+| Quantity | Analytical | Simulated |
+|:---|:---:|:---:|
+| $I_{E4}$ ($R_7$ branch) | $0.530\,\mathrm{mA}$ | $0.528\,\mathrm{mA}$ |
+| $I_{E5}$ ($R_8$ branch) | $0.470\,\mathrm{mA}$ | $0.472\,\mathrm{mA}$ |
+| $V_{out+}$ | $13.41\,\mathrm{V}$ | $13.43\,\mathrm{V}$ |
+| $V_{out-}$ | $13.59\,\mathrm{V}$ | $13.60\,\mathrm{V}$ |
+
+The agreement is excellent; the small residual differences arise from finite base currents (the analytical estimate assumes $I_C\approx I_E$).
 
 #### 4.3.1 Potentiometer Ratio for Zero Output
 
-For equal collector currents ($I_{C4} = I_{C5}$), the effective emitter resistance of each branch must be equal:
+To null the output offset the two branches must carry **equal collector currents**, which requires the effective emitter resistance of each branch to be equal. The potentiometer ($R_{10}+R_{11}=10\,\mathrm{k}\Omega$) is wired so that $R_{10}$ is in parallel with $R_7$ and $R_{11}$ in parallel with $R_8$, so equalizing the two branch resistances gives the system:
 
-$$R_7 + R_{10} = R_8 + R_{11}$$
-$$R_{10} - R_{11} = R_8 - R_7 = 807 - 716 = 91\,\Omega$$
+$$R_{10} + R_{11} = 10\,\mathrm{k}\Omega$$
+$$R_{10}\,\|\,R_7 = R_{11}\,\|\,R_8$$
 
-For a 10 kΩ potentiometer ($R_{10}+R_{11}=10\,\mathrm{k}\Omega$):
+Solving (with $R_7=716\,\Omega$, $R_8=807\,\Omega$):
 
-$$R_{10} = \frac{10000 + 91}{2} = 5045.5\,\Omega, \quad R_{11} = 4954.5\,\Omega$$
-$$\frac{R_{10}}{R_{10}+R_{11}} \approx 0.505 \quad (50.5\%)$$
+$$\boxed{R_{10} = 6732.33\,\Omega, \qquad R_{11} = 10\,\mathrm{k}\Omega - R_{10} = 3267.67\,\Omega}$$
+
+$$\frac{R_{11}}{R_{10}} = \frac{3267.67}{6732.33} \approx 0.485 \quad (48.5\%)$$
+
+Making the parallel emitter resistances equal forces the same current through both branches, which equalizes the two collector voltages and nulls the output offset. The simulation below verifies this balance.
 
 #### 4.3.2 Simulation with Chosen Ratio
 
-> **[SIMULATION NEEDED — 4.3.2]**
-> Simulate Figure 3 with $R_{10}=5045.5\,\Omega$, $R_{11}=4954.5\,\Omega$. Confirm $V_{out+}\approx V_{out-}$ (no print required).
+No print needed. The bias-point simulation with $R_{10}=6732.33\,\Omega$, $R_{11}=3267.67\,\Omega$ confirms the branches are balanced: the residual difference between the two collector currents (and hence between $V_{out+}$ and $V_{out-}$) is below the nV level. This vanishingly small offset is only a floating-point/rounding artifact — we entered $R_{10}=6732.33\,\Omega$ rather than its exact, non-terminating value ($6732.33\ldots\,\Omega$) — and would be exactly zero for the ideal ratio.
 
 #### 4.3.3 10% Change in Potentiometer Ratio
 
-If the ratio changes by 10% from the balanced point, e.g. $R_{10}/R_{pot} = 0.505 \times 1.1 = 0.556$, a small asymmetry reappears.
+If the ratio $R_{11}/R_{10}$ changes by 10% from the balanced point, e.g.
 
-> **[SIMULATION NEEDED — 4.3.3]**
-> Simulate with the ±10% ratio perturbation and attach a print. Record $\Delta V = V_{out+} - V_{out-}$.
+$$\frac{R_{11}}{R_{10}} = 0.485 \times 1.1 \approx 0.534$$
+
+then, with $R_{10}+R_{11}=10\,\mathrm{k}\Omega$,
+
+$$R_{10} = \frac{10\,\mathrm{k}\Omega}{1 + R_{11}/R_{10}} = \frac{10\,\mathrm{k}\Omega}{1.534} \approx 6.52\,\mathrm{k}\Omega, \qquad R_{11} = 10\,\mathrm{k}\Omega - R_{10} \approx 3.48\,\mathrm{k}\Omega$$
+
+The two effective emitter resistances are no longer equal, so a small offset reappears.
+
+\figscalelarge
+
+![ ](assets/fig_4.3.3_currents.png)
+
+\figscalenormal
+\nopagebreak[4]
+
+\figcap{Figure 5: Branch currents with the 10\% perturbation, $I_E(Q4)=503.54\,\mu\mathrm{A}$, $I_E(Q5)=496.46\,\mu\mathrm{A}$.}
+
+\figscalelarge
+
+![ ](assets/fig_4.3.3_offset.png)
+
+\figscalenormal
+\nopagebreak[4]
+
+\figcap{Figure 6: Output offset with $R_{10}=6.52\,\mathrm{k}\Omega$, $R_{11}=3.48\,\mathrm{k}\Omega$, $V_{out+}=13.504\,\mathrm{V}$, $V_{out-}=13.525\,\mathrm{V}$.}
+
+**Extracted offset.** From the prints, the branches now carry $I_{E4}=503.54\,\mu\mathrm{A}$ (Q4) and $I_{E5}=496.46\,\mu\mathrm{A}$ (Q5), giving $V_{out+}=13.504\,\mathrm{V}$ and $V_{out-}=13.525\,\mathrm{V}$, i.e. an output offset
+
+$$\Delta V = V_{out+} - V_{out-} = 13.504 - 13.525 \approx -21.0\,\mathrm{mV}$$
+
+**Match to theory.** With the perturbed ratio, the effective emitter resistances are $R_{10}\|R_7 \approx 645\,\Omega$ and $R_{11}\|R_8 \approx 655\,\Omega$. Since the branch currents split inversely with these resistances ($I_{E4}/I_{E5}=R_{11}\|R_8 \,/\, R_{10}\|R_7$) and sum to $I_1=1\,\mathrm{mA}$, theory predicts $I_{E4}\approx 504\,\mu\mathrm{A}$ and $I_{E5}\approx 496\,\mu\mathrm{A}$ — matching the simulated $503.5/496.5\,\mu\mathrm{A}$. The resulting offset is
+
+$$\Delta V = (I_{E5}-I_{E4})\times R = -7.1\,\mu\mathrm{A}\times 3\,\mathrm{k}\Omega \approx -21\,\mathrm{mV}$$
+
+in good agreement with the simulated $-21.0\,\mathrm{mV}$ (the small residual is due to finite base currents, which the $I_C\approx I_E$ model neglects).
 
 \newpage
 
@@ -184,16 +252,16 @@ $$A_d = A_{cm}\times 10^{\mathrm{CMRR_{dB}}/20} = 0.307\times 10^{81/20} = 0.307
 ![ ](assets/figure4.png)
 \nopagebreak[4]
 
-\figcap{Figure 3 - Figure 4: Common-mode circuit for measuring $A_{cm}$ (ideal output $V_{out}=0$).}
+\figcap{Figure 7: Common-mode circuit for measuring $A_{cm}$ (ideal output $V_{out}=0$).}
 
 ![ ](assets/figure5.png)
 \nopagebreak[4]
 
-\figcap{Figure 4 - Figure 5: Differential (inverting) amplifier for measuring $A_d$ ($A_5=-R_f/R_{in}=-1000$).}
+\figcap{Figure 8: Differential (inverting) amplifier for measuring $A_d$ ($A_5=-R_f/R_{in}=-1000$).}
 
 **Figure 4** (common-mode circuit): both inputs are driven by the same common-mode input $V_{in}$. For an ideal op-amp with matched resistors, the common-mode signal is rejected, so
 
-$$V_{-}=V_{in}\frac{1000}{1001}\rightarrow V_{out}=0 $$
+$$V_{-}=V_{in}\frac{1000}{1001} = (V{in}-V{out})\frac{1000}{1001}=(V{in}-V{out})\frac{R_f}{R_f+Rin}\rightarrow V_{out}=0 $$
 thus:
 $$A_4 = \frac{V_{out}}{V_{in}} = 0 \quad $$
 
@@ -207,7 +275,7 @@ This circuit measures the differential gain $A_d$.
 
 **Circuit assignment and CMRR expression:** Figure 5 (differential, $A_5=-1000$) measures $A_d$; Figure 4 (common-mode, ideal $V_{out}=0$) measures $A_{cm}$. Hence $A_d = A_5$ and $A_{cm} = A_4$ (the small, real common-mode gain), and
 
-$$\mathrm{CMRR} = \left|\frac{A_d}{A_{cm}}\right| = \left|\frac{A_5}{A_4}\right|$$
+$$\mathrm{CMRR} = \left|\frac{A_d}{A_{cm}}\right| = \left|\frac{A_5}{A_4}\right|\rightarrow \infty$$
 
 
 ### 5.3 
@@ -225,13 +293,27 @@ Alongside the resistor choice, the input amplitude must also be set appropriatel
 
 ### 6.1 Formulas and Definitions
 
-$$\mathrm{SR} = \left.\frac{\mathrm{d}V_{out}}{\mathrm{d}t}\right|_{\max} \quad [\mathrm{V/\mu s}]$$
+**Slew rate (SR)** is the maximum rate of change the output can sustain:
 
-$$\mathrm{FPBW} = \frac{\mathrm{SR}}{2\pi\, V_{om}} \quad [\mathrm{Hz}]$$
+$$\mathrm{SR} = \left.\frac{\mathrm{d}V_{out}}{\mathrm{d}t}\right|_{\max} \quad [\mathrm{V/us}]$$
 
-where $V_{om}$ is the maximum undistorted output amplitude (typically $V_{CC}-2\,\mathrm{V}$).
+**Full-Power Bandwidth (FPBW).** Consider a sinusoidal output whose peak amplitude equals the maximum rated output voltage of the op-amp, $V_{om}$:
 
-**Relationship:** FPBW is the highest frequency at which the op-amp can produce a full-swing sinusoidal output ($V_{om}$) without SR distortion. A sine wave requires $\mathrm{d}V_{out}/\mathrm{d}t|_{\max} = 2\pi f V_{om} \leq \mathrm{SR}$; at $f = \mathrm{FPBW}$ this limit is exactly reached.
+$$V_{out}(t) = V_{om}\sin(2\pi\,\mathrm{FPBW}\,t)$$
+
+Differentiating gives the maximum slope, which occurs at the zero-crossing:
+
+$$\left.\frac{\mathrm{d}V_{out}(t)}{\mathrm{d}t}\right|_{\max} = 2\pi\,\mathrm{FPBW}\;V_{om}$$
+
+**The relationship:** the op-amp can reproduce this full-amplitude sine without slew distortion only while its peak slope does not exceed the slew rate. Setting the two equal,
+
+$$\mathrm{SR} = 2\pi\,\mathrm{FPBW}\;V_{om}$$
+
+and rearranging for the full-power bandwidth:
+
+$$\mathrm{FPBW} = \frac{\mathrm{SR}}{2\pi\,V_{om}} \quad [\mathrm{Hz}]$$
+
+where $V_{om}$ is the maximum undistorted output amplitude (typically $V_{CC}-2\,\mathrm{V}$). FPBW is therefore the highest frequency at which the op-amp can deliver a full-swing sinusoidal output without slew-rate distortion.
 
 ### 6.2 SR vs. Finite Bandwidth
 
@@ -243,53 +325,87 @@ where $V_{om}$ is the maximum undistorted output amplitude (typically $V_{CC}-2\
 
 SR is a **large-signal** (nonlinear) phenomenon; finite BW is a **small-signal** (linear) limitation.
 
-### 6.3 Maximum Input Amplitude Before SR Limiting (Figure 6)
+### 6.3 Slew-Rate–Limited Operation (Figure 6)
 
 ![ ](assets/figure6.png)
 \nopagebreak[4]
 
-\figcap{Figure 5 - Figure 6: Circuit used for slew-rate measurement ($R_{in}=100\,\Omega$, $R_f=100\,\mathrm{k}\Omega$, $|A_v|=1000$).}
+\figcap{Figure 9: Circuit used for slew-rate measurement ($R_{in}=100\,\Omega$, $R_f=100\,\mathrm{k}\Omega$, $|A_v|=500$).}
 
-For a sinusoidal input at frequency $f$, the output slope requirement is:
+Our assigned parameters for this op-amp are:
 
-$$\left.\frac{\mathrm{d}V_{out}}{\mathrm{d}t}\right|_{\max} = 2\pi f\,|A_v|\,V_{in,pk}$$
+$$\mathrm{SR} = \frac{\mathrm{ABC}}{100} = \frac{216}{100} = 2.16\,\mathrm{V/us}, \qquad \mathrm{BW} = 1 + \frac{\mathrm{DEF}}{100} = 1 + \frac{307}{100} = 4.07\,\mathrm{MHz}$$
 
-Setting this equal to SR (SR-limit onset):
+#### 6.3.1 Maximum Input Amplitude (SR the Only Limiting Effect)
 
-$$V_{in,pk}^{\max} = \frac{\mathrm{SR}}{2\pi f\,|A_v|}$$
+For an input $V_g = a\sin(2\pi f t)$ with $f = 1\,\mathrm{kHz}$, the output is $V_{out} = |A_v|\,a\sin(2\pi f t)$ and its peak rate of change is $|A_v|\,a\,(2\pi f)$. The output can still follow the input only while this peak slope does not exceed the slew rate:
 
-For the LM741 simulation ($\mathrm{SR}=0.5\,\mathrm{V/\mu s}$, $|A_v|=1000$, $f=1\,\mathrm{kHz}$):
+$$\left.\frac{\mathrm{d}V_{out}}{\mathrm{d}t}\right|_{\max} = 2\pi f\,|A_v|\,a \le \mathrm{SR} \;\Rightarrow\; a_{\max} = \frac{\mathrm{SR}}{2\pi f\,|A_v|}$$
 
-$$V_{in,pk}^{\max} = \frac{0.5\times10^6}{2\pi\times10^3\times10^3} \approx 80\,\mathrm{mV_{pk}} \approx 56\,\mathrm{mVRMS}$$
+With $|A_v| = 500$ and $f = 1\,\mathrm{kHz}$:
 
-### 6.4 Full-Power Bandwidth for Two Supply Voltages
+$$a_{\max} = \frac{2.16\times10^6}{2\pi\times10^3\times500} \approx 688\,\mathrm{mV_{pk}} \approx 486\,\mathrm{mVRMS}$$
+
+#### 6.3.2 Full-Power Bandwidth for $\pm 2\,\mathrm{V}$ and $\pm 5\,\mathrm{V}$ Supplies
+
+Using the FPBW relation from §6.1 with the assigned $\mathrm{SR}=2.16\,\mathrm{V/us}$ and $V_{om}=V_{CC}-2\,\mathrm{V}$ (where $V_{om}>0$; for $\pm 2\,\mathrm{V}$ the headroom model gives $V_{om}=0$, so we take $V_{om}=V_{CC}=2\,\mathrm{V}$ as the maximum swing):
 
 $$\mathrm{FPBW} = \frac{\mathrm{SR}}{2\pi\,V_{om}}$$
 
-For LM741, $\mathrm{SR}=0.5\,\mathrm{V/\mu s}$, $V_{om}\approx V_{CC}-2\,\mathrm{V}$:
-
 | Supply $V_{CC}$ | $V_{om}$ | FPBW |
 |:---:|:---:|:---:|
-| $\pm 15\,\mathrm{V}$ | $13\,\mathrm{V}$ | $\dfrac{0.5\times10^6}{2\pi\times13}\approx 6.1\,\mathrm{kHz}$ |
-| $\pm 12\,\mathrm{V}$ | $10\,\mathrm{V}$ | $\dfrac{0.5\times10^6}{2\pi\times10}\approx 8.0\,\mathrm{kHz}$ |
+| $\pm 2\,\mathrm{V}$ | $2\,\mathrm{V}$ | $\dfrac{2.16\times10^6}{2\pi\times2}\approx 172\,\mathrm{kHz}$ |
+| $\pm 5\,\mathrm{V}$ | $3\,\mathrm{V}$ ($=V_{CC}-2$) | $\dfrac{2.16\times10^6}{2\pi\times3}\approx 115\,\mathrm{kHz}$ |
 
-These values are qualitative (actual op-amp unknown); they may not be achievable in the lab, but are theoretically consistent with LM741 specifications.
+A larger undistorted swing $V_{om}$ lowers FPBW at the same SR (the op-amp must slew over a larger voltage). Unlike §6.3.1, FPBW does not depend on $|A_v|=500$ — it is set solely by SR and the maximum output amplitude.
 
-### 6.5 Output for Step-Function Input with Load Capacitor
+### 6.4 Output for Step-Function Input with Load Capacitor
 
-With a capacitor $C_L$ at the output and an ideal step $V_{in} = V_0\,u(t)$, the output $V_{out}(t)$:
+With a capacitor $C_L$ at the output and an ideal step input $V_{in}=a\,u(t)$, the output $V_{out}(t)$ depends on whether the demanded initial rate of rise exceeds the op-amp's slew rate. The following simulation compares the response for four step amplitudes ($a=3,\,5,\,7,\,9\,\mathrm{mV}$) with time constant $\tau=1\,\mu\mathrm{s}$ and assigned $\mathrm{SR}=2\,\mathrm{V/us}$.
 
-**Not SR-limited** (small $V_0$, $|A_v|V_0 < $ SR threshold): The output rises exponentially with time constant $\tau = R_{out}C_L$ (or the closed-loop time constant $1/(2\pi f_{-3\mathrm{dB}})$), approaching the final value $A_v\,V_0$.
+\figscalexlarge
 
-**SR-limited** (large $V_0$): The output rises as a **linear ramp** with slope SR until it reaches the final value $A_v V_0$, then settles. The larger $V_0$, the longer the ramp phase.
+![ ](assets/fig_6.4_step_response.png)
 
-Qualitative sketch:
-- Non-SR-limited: smooth exponential approach to $A_v V_0$.
-- SR-limited: straight ramp at slope SR, then exponential settling at the top.
+\figscalenormal
+\nopagebreak[4]
 
-### 6.6 Scope Scale for SR Observation
+\figcap{Figure 10: Step response with and without slew-rate limiting ($\tau=1\,\mu\mathrm{s}$, $\mathrm{SR}=2\,\mathrm{V/us}$).}
 
-The LM741 SR $\approx 0.5\,\mathrm{V/\mu s}$. A 10–15 V output swing (full-scale) takes:
+#### Without Slew-Rate Limitations (Linear Response)
+
+In the ideal (linear) case, every curve is a pure exponential charging toward its final value $V_{\mathrm{final}}=|A_v|\,a$:
+
+$$V_{out}(t)=V_{\mathrm{final}}\left(1-e^{-t/\tau}\right)$$
+
+Each curve scales perfectly with amplitude and reaches approximately $63.2\%$ of its respective final value at $t=\tau=1\,\mu\mathrm{s}$. The initial slope demanded at $t=0$ is $V_{\mathrm{final}}/\tau$:
+
+| Input $a$ | $V_{\mathrm{final}}$ | Demanded slope $V_{\mathrm{final}}/\tau$ |
+|:---:|:---:|:---:|
+| $3\,\mathrm{mV}$ | $1.5\,\mathrm{V}$ | $1.5\,\mathrm{V/us}$ |
+| $5\,\mathrm{mV}$ | $2.5\,\mathrm{V}$ | $2.5\,\mathrm{V/us}$ |
+| $7\,\mathrm{mV}$ | $3.5\,\mathrm{V}$ | $3.5\,\mathrm{V/us}$ |
+| $9\,\mathrm{mV}$ | $4.5\,\mathrm{V}$ | $4.5\,\mathrm{V/us}$ |
+
+#### With Slew-Rate Limitations (Nonlinear Response)
+
+When the $\mathrm{SR}=2\,\mathrm{V/us}$ restriction is introduced, the behavior splits depending on whether the demanded initial slope exceeds this threshold:
+
+**$a=3\,\mathrm{mV}$ (small-signal, linear):** The demanded initial slope is $1.5\,\mathrm{V}/1\,\mu\mathrm{s}=1.5\,\mathrm{V/us}$, which is below the $2\,\mathrm{V/us}$ ceiling. The op-amp never saturates internally; the response remains entirely exponential and matches the linear model exactly.
+
+**$a=5,\,7,\,9\,\mathrm{mV}$ (large-signal, slew-limited):** The ideal demanded slopes are $2.5,\,3.5,$ and $4.5\,\mathrm{V/us}$ respectively — all exceed $2\,\mathrm{V/us}$, so the internal input stage saturates at $t=0$:
+
+- **The overlap:** For all three inputs, $V_{out}$ initially climbs along the same linear ramp with constant slope $\mathrm{SR}=2\,\mathrm{V/us}$.
+- **The separation:** Each curve eventually breaks away from the ramp at a different point and finishes with an exponential tail as it nears its target:
+  - $a=5\,\mathrm{mV}$: slews to $\approx 0.5\,\mathrm{V}$ ($t\approx 0.25\,\mu\mathrm{s}$) before entering the exponential phase toward $2.5\,\mathrm{V}$.
+  - $a=7\,\mathrm{mV}$: remains on the ramp longer, tracking straight up to $\approx 1.5\,\mathrm{V}$ ($t\approx 0.75\,\mu\mathrm{s}$) before bending.
+  - $a=9\,\mathrm{mV}$: stays in the linear slewing region longest, following the ramp to $\approx 2.5\,\mathrm{V}$ ($t\approx 1.25\,\mu\mathrm{s}$) before tapering exponentially toward $4.5\,\mathrm{V}$.
+
+Compared to the linear plot, the slew-limited curves (except $a=3\,\mathrm{mV}$) are pushed to the right — delayed in reaching their final values because the output cannot rise faster than SR permits.
+
+### 6.5 Scope Scale for SR Observation
+
+The LM741 SR $\approx 0.5\,\mathrm{V/us}$. A 10–15 V output swing (full-scale) takes:
 
 $$t_{slew} = \frac{\Delta V}{\mathrm{SR}} = \frac{15}{0.5} = 30\,\mu\mathrm{s}$$
 
@@ -299,15 +415,13 @@ $$\text{Scale} = \frac{30\,\mu\mathrm{s}}{3\text{ div}} \approx 10\,\mu\mathrm{s
 
 Recommended: **10 μs/div**, allowing the rising edge to span 3–4 divisions.
 
-### 6.7 Measuring SR in the Lab
+### 6.6 Measuring SR in the Lab
 
 1. Build Figure 6 with the appropriate gain.
 2. Apply a **square wave** input at low frequency (e.g., 100 Hz), amplitude small enough that the output is SR-limited on the edges (check: output ramps linearly, not exponentially).
 3. Set horizontal scale to ~10 μs/div so the rising/falling edges span several divisions.
 4. Use the cursors to measure $\Delta V$ (vertical) and $\Delta t$ (horizontal) on the linear portion of the rising edge.
 5. $\mathrm{SR} = \Delta V / \Delta t$.
-
-Do **not** use frequency sweeping to measure SR — at higher frequencies, additional distortion mechanisms unrelated to SR appear and corrupt the measurement.
 
 \newpage
 
@@ -351,12 +465,12 @@ $$|A(f)| = 10 \;\Rightarrow\; f = \frac{A_0 f_p}{10} = \frac{10^5\times 10}{10} 
 ![ ](assets/figure7.png)
 \nopagebreak[4]
 
-\figcap{Figure 6 - Figure 7: Inverting amplifier for GBW measurement ($R_1=1\,\mathrm{k}\Omega$, $R_f$ variable).}
+\figcap{Figure 11: Inverting amplifier for GBW measurement ($R_1=1\,\mathrm{k}\Omega$, $R_f$ variable).}
 
 ![ ](assets/figure8.png)
 \nopagebreak[4]
 
-\figcap{Figure 7 - Figure 8: Non-inverting amplifier for GBW measurement ($R_1=1\,\mathrm{k}\Omega$, $R_f$ variable, $100\,\Omega$ at $+$ input).}
+\figcap{Figure 12: Non-inverting amplifier for GBW measurement ($R_1=1\,\mathrm{k}\Omega$, $R_f$ variable, $100\,\Omega$ at $+$ input).}
 
 For a single-pole open-loop gain $A(s) = A_0\omega_p/(s+\omega_p)$, the closed-loop TFs are:
 
@@ -389,7 +503,7 @@ For large $A_0$ ($A_0 \gg 1+R_f/R_1$), GBW$_8 = f_t$ exactly, while GBW$_7 \to f
 ![ ](assets/figure9.png)
 \nopagebreak[4]
 
-\figcap{Figure 8 - Figure 9: Circuit for open-loop gain measurement ($R\gg r$; $V_y$ is the node between the two $R$ resistors).}
+\figcap{Figure 13: Circuit for open-loop gain measurement ($R\gg r$; $V_y$ is the node between the two $R$ resistors).}
 
 For an **ideal** op-amp with virtual ground at $V^- = V^+ = 0$:
 
@@ -435,7 +549,7 @@ Expected signals: $V_o \approx -V_g$ (large, clean sine); $V_y \approx V_g/A_{OL
 ![ ](assets/figure10.png)
 \nopagebreak[4]
 
-\figcap{Figure 9 - Figure 10: Integrator circuit with $R_1=10\,\mathrm{k}\Omega$, $R_f=20\,\mathrm{k}\Omega$ (parallel with $C=10\,\mathrm{nF}$) and $100\,\Omega$ on the $+$ input.}
+\figcap{Figure 14: Integrator circuit with $R_1=10\,\mathrm{k}\Omega$, $R_f=20\,\mathrm{k}\Omega$ (parallel with $C=10\,\mathrm{nF}$) and $100\,\Omega$ on the $+$ input.}
 
 The feedback impedance is $Z_f = R_f \,\|\, \frac{1}{j\omega C}$:
 
@@ -481,7 +595,7 @@ The circuit acts as an **ideal integrator**. The integral of a square wave is a 
 ![ ](assets/figure11.png)
 \nopagebreak[4]
 
-\figcap{Figure 10 - Figure 11: Inverting summing amplifier example ($R_1=R_2=R_f=R$).}
+\figcap{Figure 15: Inverting summing amplifier example ($R_1=R_2=R_f=R$).}
 
 For the inverting summing amplifier with $R_1 = R_2 = R_f = R$:
 
